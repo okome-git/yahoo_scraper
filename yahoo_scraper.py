@@ -18,6 +18,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--word',  help='search word')
 parser.add_argument('--word-2',  help='additional search word')
 parser.add_argument('--word-3',  help='additional search word')
+parser.add_argument('--num',  help='number of download images')
 parser.add_argument("--save-dir", default="./images/", help="savedir")
 args = parser.parse_args()
 #print("serch word = " + args.word + " " + args.word_2 + " " + args.word_3)
@@ -41,7 +42,7 @@ else:
     save_dir = args.save_dir + word 
     print("save directry = " + save_dir)
     
-
+num = int(args.num) + 1
 
 # ディレクトリが存在しなければ作成する
 if not os.path.exists(save_dir):
@@ -107,7 +108,7 @@ while True:
 print("Searching Original Image URLs .....")
 figures = driver.find_elements_by_class_name("sw-Thumbnail__image")
 urls = []
-for i, figure in enumerate(tqdm(figures)):
+for i, figure in enumerate(tqdm(figures[:num])):
     figure.click()
     sleep(2)
     element = driver.find_element_by_class_name("sw-PreviewPanel__image")
@@ -117,9 +118,5 @@ for i, figure in enumerate(tqdm(figures)):
 driver.close()   # driverをクローズする
 print("Download Start !!")
 download_imgs(urls, save_dir)
-
-
-
-
 
 
